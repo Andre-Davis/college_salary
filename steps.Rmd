@@ -1,0 +1,56 @@
+---
+title: "college_salary"
+author: "andre davis"
+date: "3/26/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+
+install.packages("ggplot2")
+library(ggplot2)
+
+install.packages("janitor")
+library(janitor)
+
+install.packages("gridExtra")
+library("gridExtra")
+
+clean_names(df1)
+clean_names(df2)
+clean_names(df3)
+
+df1<-read_csv("data/tidy_data/degrees-that-pay-back.csv") %>% 
+  clean_names()
+df2<-read_csv("data/tidy_data/salaries-by-college-type.csv") %>% 
+  clean_names()
+df3<-read_csv("data/tidy_data/salaries-by-region.csv") %>% 
+  clean_names()
+
+df1
+
+df2
+
+df3
+
+a1<-ggplot(df1,aes(reorder(x=undergraduate_major,y=starting_median_salary)))+
+  geom_bar(stat= "identity")+
+  coord_flip()
+
+a2<-ggplot(df1,aes(reorder(x=undergraduate_major,y=mid_career_median_salary)))+
+  geom_bar(stat= "identity")+
+  coord_flip()
+
+grid.arrange(a1,a2, ncol = 2)
+  
+```
+  
+
+
+
