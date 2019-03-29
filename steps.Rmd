@@ -27,7 +27,9 @@ clean_names(df2)
 clean_names(df3)
 
 df1<-read_csv("data/tidy_data/degrees-that-pay-back.csv") %>% 
-  clean_names()
+  clean_names() %>% 
+  mutate(starting_median_salary = as.numeric(gsub('\\$|,', '', starting_median_salary,))) %>%
+  mutate(mid_career_median_salary=as.numeric(gsub('\\$|,', '',mid_career_median_salary)))
 df2<-read_csv("data/tidy_data/salaries-by-college-type.csv") %>% 
   clean_names()
 df3<-read_csv("data/tidy_data/salaries-by-region.csv") %>% 
@@ -39,17 +41,26 @@ df2
 
 df3
 
-a1<-ggplot(df1,aes(reorder(x=undergraduate_major,y=starting_median_salary)))+
-  geom_bar(stat= "identity")+
+a1 <- ggplot(df1,aes(x=fct_reorder(undergraduate_major, starting_median_salary) ,y=starting_median_salary)) + geom_bar(stat= "identity", fill="yellow")+
   coord_flip()
 
-a2<-ggplot(df1,aes(reorder(x=undergraduate_major,y=mid_career_median_salary)))+
-  geom_bar(stat= "identity")+
+a2<-ggplot(df1,aes(x=fct_reorder(undergraduate_major,mid_career_median_salary),y=mid_career_median_salary))+
+  geom_bar(stat= "identity", fill="blue")+
   coord_flip()
 
 grid.arrange(a1,a2, ncol = 2)
-  
+
+str(df1$starting_median_salary)
+str(df1$mid_career_median_salary)
+
+a3<-ggplot(df1,aes(x=mid_career_median_salary,y=starting_median_salary))+ geom_smooth(method = "lm",se=FALSE)+
+  geom_point(stat= "identity", fill="blue")+
+  coord_flip()
+
+
+
 ```
+
   
 
 
